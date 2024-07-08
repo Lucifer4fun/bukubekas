@@ -30,8 +30,7 @@ class MyApp extends StatelessWidget {
         ),
         home: Home(),
         routes: {
-          '/cart': (context) =>
-              CartPage(cart: Provider.of<CartProvider>(context).items),
+          '/cart': (context) => CartPage(),
         },
       ),
     );

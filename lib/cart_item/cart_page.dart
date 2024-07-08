@@ -1,38 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart'; // Import Provider
 import 'cart_item.dart';
+import 'cart_provider.dart'; // Import CartProvider
 import 'package:uts/data.dart';
 import 'package:uts/detail.dart';
 
 class CartPage extends StatelessWidget {
-  final List<CartItem> cart;
-
-  CartPage({required this.cart});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('KERANJANG'),
       ),
-      body: ListView.builder(
-        itemCount: cart.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(cart[index].book.book_title ?? ''),
-            subtitle: Text('Jumlah: ${cart[index].quantity}'),
-            trailing: IconButton(
-              icon: Icon(Icons.remove_shopping_cart),
-              onPressed: () {
-                _showConfirmationDialog(context, cart[index]);
-              },
-            ),
+      body: Consumer<CartProvider>(
+        builder: (context, cartProvider, child) {
+          return ListView.builder(
+            itemCount: cartProvider.cart.length,
+            itemBuilder: (context, index) {
+              final cartItem = cartProvider.cart[index];
+              return ListTile(
+                title: Text(cartItem.book.book_title ?? ''),
+                subtitle: Text('Jumlah: ${cartItem.quantity}'),
+                trailing: IconButton(
+                  icon: Icon(Icons.remove_shopping_cart),
+                  onPressed: () {
+                    _showConfirmationDialog(context, cartItem, cartProvider);
+                  },
+                ),
+              );
+            },
           );
         },
       ),
     );
   }
 
-  void _showConfirmationDialog(BuildContext context, CartItem cartItem) {
+  void _showConfirmationDialog(
+      BuildContext context, CartItem cartItem, CartProvider cartProvider) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -50,11 +54,7 @@ class CartPage extends StatelessWidget {
             TextButton(
               child: Text('Hapus'),
               onPressed: () {
-                // Panggil fungsi removeFromCart dari provider atau implementasikan penghapusan item di sini
-                // Contoh:
-                // Provider.of<CartProvider>(context, listen: false).removeFromCart(cartItem.book);
-                // atau
-                // _removeFromCartLocally(cartItem);
+                cartProvider.removeFromCart(cartItem.book);
                 Navigator.of(context).pop();
               },
             ),
@@ -63,9 +63,4 @@ class CartPage extends StatelessWidget {
       },
     );
   }
-
-  // Contoh fungsi untuk menghapus item dari keranjang secara lokal (tanpa menggunakan provider)
-  // void _removeFromCartLocally(CartItem cartItem) {
-  //   cart.remove(cartItem);
-  // }
 }

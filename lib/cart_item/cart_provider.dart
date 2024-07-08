@@ -26,6 +26,7 @@ class CartProvider with ChangeNotifier {
   }
 
   Future<void> addToCart(BookModel book) async {
+    print('add fb');
     var existingItem = _cart.firstWhereOrNull((item) => item.book == book);
 
     if (existingItem != null) {

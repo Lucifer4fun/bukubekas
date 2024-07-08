@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:uts/book_model.dart';
+import 'package:uts/cart_item/cart_provider.dart';
 import 'package:uts/detail.dart';
 import 'package:uts/ui/main_view.dart';
 import 'package:uts/ui/screens/login_screen.dart';
@@ -22,7 +24,8 @@ class _HomeState extends State<Home> {
 
   void addToCart(BookModel book) {
     setState(() {
-      cart.add(CartItem(book, 1));
+      // cart.add(CartItem(book, 1));
+      Provider.of<CartProvider>(context, listen: false).addToCart(book);
     });
   }
 
@@ -34,9 +37,7 @@ class _HomeState extends State<Home> {
 
   void viewCart() {
     Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => CartPage(cart: cart)),
-    );
+        context, MaterialPageRoute(builder: (context) => CartPage()));
   }
 
   @override

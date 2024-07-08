@@ -35,7 +35,7 @@ class Detail extends StatelessWidget {
         Padding(
           padding: EdgeInsets.all(16.0),
           child: Hero(
-            tag: book.book_title!,
+            tag: book.book_title ?? "-",
             child: Material(
               elevation: 15.0,
               shadowColor: Colors.purple.shade900,
@@ -175,11 +175,7 @@ class Detail extends StatelessWidget {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(
-                builder: (context) => CartPage(
-                      cart: Provider.of<CartProvider>(context, listen: false)
-                          .cart, // Ambil cart dari provider
-                    )),
+            MaterialPageRoute(builder: (context) => CartPage()),
           );
         },
         minWidth: double.infinity,
