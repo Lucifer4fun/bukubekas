@@ -7,6 +7,7 @@ import 'package:uts/data.dart';
 import 'package:uts/detail.dart';
 import 'package:uts/admin/auth_service.dart';
 import 'package:uts/firebase_options.dart';
+import 'package:uts/home.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,14 +23,14 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => CartProvider()),
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Toko Buku Bekas',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: MyHomePage(),
+        home: Home(),
         routes: {
-          '/cart': (context) =>
-              CartPage(cart: Provider.of<CartProvider>(context).items),
+          '/cart': (context) => CartPage(),
         },
       ),
     );

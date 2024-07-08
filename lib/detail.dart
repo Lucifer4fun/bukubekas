@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:uts/book_model.dart';
 import 'package:uts/cart_item/cart_item.dart';
 import 'package:uts/data.dart';
 import 'package:uts/cart_item/cart_provider.dart'; // Import CartProvider
@@ -11,7 +12,7 @@ import 'chatdetail/chatdetailpage.dart';
 import 'popup.dart';
 
 class Detail extends StatelessWidget {
-  final Book book;
+  final BookModel book;
 
   Detail(this.book);
 
@@ -34,22 +35,15 @@ class Detail extends StatelessWidget {
         Padding(
           padding: EdgeInsets.all(16.0),
           child: Hero(
-            tag: book.title!,
+            tag: book.book_title ?? "-",
             child: Material(
               elevation: 15.0,
               shadowColor: Colors.purple.shade900,
               child: Image(
-                image: AssetImage(book.image!),
+                image: NetworkImage(book.book_poster_url!),
                 fit: BoxFit.cover,
               ),
             ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(bottom: 8.0),
-          child: Text(
-            '${book.pages} halaman',
-            style: TextStyle(color: Colors.white30, fontSize: 12),
           ),
         ),
       ],
@@ -61,7 +55,7 @@ class Detail extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(top: 16.0),
           child: Text(
-            book.title!,
+            book.book_title!,
             style: TextStyle(
                 color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
           ),
@@ -76,7 +70,7 @@ class Detail extends StatelessWidget {
         Row(
           children: <Widget>[
             Text(
-              book.price! as String,
+              book.category.toString(),
               style:
                   TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
             ),
@@ -119,7 +113,7 @@ class Detail extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => MyApp(),
+                            builder: (context) => Checkout(book),
                           ),
                         );
                       },
@@ -145,7 +139,8 @@ class Detail extends StatelessWidget {
           onPressed: () {
             Provider.of<CartProvider>(context, listen: false).addToCart(book);
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('${book.title} ditambahkan ke keranjang')),
+              SnackBar(
+                  content: Text('${book.book_title} ditambahkan ke keranjang')),
             );
           },
           minWidth: 160.0,
@@ -170,13 +165,6 @@ class Detail extends StatelessWidget {
               Expanded(flex: 3, child: topRight),
             ],
           ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Text(
-              book.description!, // Deskripsi buku
-              style: TextStyle(color: Colors.white, fontSize: 16),
-            ),
-          ),
         ],
       ),
     );
@@ -187,11 +175,7 @@ class Detail extends StatelessWidget {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(
-                builder: (context) => CartPage(
-                      cart: Provider.of<CartProvider>(context, listen: false)
-                          .cart, // Ambil cart dari provider
-                    )),
+            MaterialPageRoute(builder: (context) => CartPage()),
           );
         },
         minWidth: double.infinity,
