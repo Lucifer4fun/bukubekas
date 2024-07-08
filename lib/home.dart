@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uts/book_model.dart';
+import 'package:uts/detail.dart';
 import 'package:uts/ui/main_view.dart';
 import 'package:uts/ui/screens/login_screen.dart';
 import "package:uts/ui/screens/sing_up_screen.dart";
@@ -82,13 +83,15 @@ class _HomeState extends State<Home> {
             shadowColor: Colors.purple.shade900,
             child: InkWell(
               onTap: () {
-                Navigator.pushNamed(context, 'detail/${book.book_title}');
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (_) => Detail(book)));
               },
               child: Column(
                 children: [
                   Image(
                     image: NetworkImage(book.book_poster_url ?? ''),
                     fit: BoxFit.cover,
+                    height: MediaQuery.of(context).size.height / 4,
                   ),
                   IconButton(
                     icon: Icon(Icons.add_shopping_cart),
