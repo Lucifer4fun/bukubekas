@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "327446972565",
+    "project_id": "jualbuku-37de7",
+    "storage_bucket": "jualbuku-37de7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:327446972565:android:198cd9f99da40e6f44339c",
+        "android_client_info": {
+          "package_name": "com.example.uts"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "327446972565-q4r4vb492f819tle7muf7q1nnhh98n7p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFNDmMhXuJopmFmf4aUfNm7d-0hrQu_H0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "327446972565-q4r4vb492f819tle7muf7q1nnhh98n7p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
