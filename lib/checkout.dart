@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:uts/book_model.dart';
 import 'package:uts/success/buy_success.dart';
 import 'package:uts/home.dart';
 import 'package:uts/success/upload_success.dart';
@@ -10,26 +11,10 @@ import 'rating_bar.dart';
 
 String? _paymentMethod;
 
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Toko Buku',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: Detail(
-        Book('CorelDraw untuk Tingkat Pemula Sampai Mahir',
-            'Jubilee Enterprise', 'Rp 50.000', 'assets/corel.jpg', 3.5, 123),
-      ),
-    );
-  }
-}
+class Checkout extends StatelessWidget {
+  final BookModel book;
 
-class Detail extends StatelessWidget {
-  final Book book;
-
-  Detail(this.book);
+  Checkout(this.book);
 
   @override
   Widget build(BuildContext context) {
@@ -50,22 +35,15 @@ class Detail extends StatelessWidget {
         Padding(
           padding: EdgeInsets.all(16.0),
           child: Hero(
-            tag: book.title!,
+            tag: book.book_tittle!,
             child: Material(
               elevation: 15.0,
               shadowColor: Colors.purple.shade900,
               child: Image(
-                image: AssetImage(book.image!),
+                image: NetworkImage(book.book_poster_url!),
                 fit: BoxFit.cover,
               ),
             ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(bottom: 8.0),
-          child: Text(
-            '${book.pages} halaman',
-            style: TextStyle(color: Colors.white30, fontSize: 12),
           ),
         ),
       ],
@@ -84,7 +62,7 @@ class Detail extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(top: 16.0),
             child: Text(
-              book.title!,
+              book.book_tittle!,
               style: TextStyle(
                   color: Colors.white,
                   fontSize: 20,
@@ -101,12 +79,11 @@ class Detail extends StatelessWidget {
           Row(
             children: <Widget>[
               Text(
-                book.price!,
+                book.category!,
                 style:
                     TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
               ),
               SizedBox(width: 8),
-              RatingBar(rating: book.rating!, color: Colors.white),
             ],
           ),
           SizedBox(

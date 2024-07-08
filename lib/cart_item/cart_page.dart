@@ -18,7 +18,7 @@ class CartPage extends StatelessWidget {
         itemCount: cart.length,
         itemBuilder: (context, index) {
           return ListTile(
-            title: Text(cart[index].book.title),
+            title: Text(cart[index].book.book_tittle ?? ''),
             subtitle: Text('Jumlah: ${cart[index].quantity}'),
             trailing: IconButton(
               icon: Icon(Icons.remove_shopping_cart),
@@ -39,7 +39,7 @@ class CartPage extends StatelessWidget {
         return AlertDialog(
           title: Text('Hapus dari Keranjang'),
           content: Text(
-              'Apakah Anda yakin ingin menghapus ${cartItem.book.title} dari keranjang?'),
+              'Apakah Anda yakin ingin menghapus ${cartItem.book.book_tittle} dari keranjang?'),
           actions: <Widget>[
             TextButton(
               child: Text('Batal'),

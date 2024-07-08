@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uts/book_model.dart';
 import 'package:uts/ui/main_view.dart';
 import 'package:uts/ui/screens/login_screen.dart';
 import "package:uts/ui/screens/sing_up_screen.dart";
@@ -18,13 +19,13 @@ class _HomeState extends State<Home> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   List<CartItem> cart = [];
 
-  void addToCart(Book book) {
+  void addToCart(BookModel book) {
     setState(() {
       cart.add(CartItem(book, 1));
     });
   }
 
-  void removeFromCart(Book book) {
+  void removeFromCart(BookModel book) {
     setState(() {
       cart.removeWhere((item) => item.book == book);
     });
@@ -74,19 +75,19 @@ class _HomeState extends State<Home> {
       ],
     );
 
-    createTile(Book book) => Hero(
-          tag: book.title,
+    createTile(BookModel book) => Hero(
+          tag: book.book_tittle ?? '',
           child: Material(
             elevation: 15.0,
             shadowColor: Colors.purple.shade900,
             child: InkWell(
               onTap: () {
-                Navigator.pushNamed(context, 'detail/${book.title}');
+                Navigator.pushNamed(context, 'detail/${book.book_tittle}');
               },
               child: Column(
                 children: [
                   Image(
-                    image: AssetImage(book.image),
+                    image: NetworkImage(book.book_poster_url ?? ''),
                     fit: BoxFit.cover,
                   ),
                   IconButton(
@@ -111,7 +112,7 @@ class _HomeState extends State<Home> {
             crossAxisCount: 3,
             mainAxisSpacing: 20.0,
             crossAxisSpacing: 20.0,
-            children: books.map((book) => createTile(book)).toList(),
+            children: main_book_list.map((book) => createTile(book)).toList(),
           ),
         )
       ],

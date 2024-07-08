@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:collection/collection.dart'; // Import paket collection untuk firstWhereOrNull
+import 'package:uts/book_model.dart';
 import 'package:uts/cart_item/cart_item.dart'; // Import CartItem
 import 'package:uts/data.dart'; // Import Book
 
@@ -12,7 +13,7 @@ class CartProvider with ChangeNotifier {
 
   get items => null;
 
-  void addToCart(Book book) {
+  void addToCart(BookModel book) {
     var existingItem = _cart.firstWhereOrNull((item) => item.book == book);
 
     if (existingItem != null) {
@@ -25,7 +26,7 @@ class CartProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void removeFromCart(Book book) {
+  void removeFromCart(BookModel book) {
     _cart.removeWhere((item) => item.book == book);
     notifyListeners();
   }

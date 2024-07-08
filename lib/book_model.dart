@@ -3,8 +3,7 @@ class BookModel {
   String? book_tittle;
   String? category;
   String? book_poster_url;
-  String? penulis;
+  String? writer;
 
-  BookModel(
-      this.book_tittle, this.category, this.penulis, this.book_poster_url);
+  BookModel(this.book_tittle, this.category, this.writer, this.book_poster_url);
 }
