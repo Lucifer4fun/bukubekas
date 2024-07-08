@@ -76,13 +76,13 @@ class _HomeState extends State<Home> {
     );
 
     createTile(BookModel book) => Hero(
-          tag: book.book_tittle ?? '',
+          tag: book.book_title ?? '',
           child: Material(
             elevation: 15.0,
             shadowColor: Colors.purple.shade900,
             child: InkWell(
               onTap: () {
-                Navigator.pushNamed(context, 'detail/${book.book_tittle}');
+                Navigator.pushNamed(context, 'detail/${book.book_title}');
               },
               child: Column(
                 children: [

@@ -35,7 +35,7 @@ class Checkout extends StatelessWidget {
         Padding(
           padding: EdgeInsets.all(16.0),
           child: Hero(
-            tag: book.book_tittle!,
+            tag: book.book_title!,
             child: Material(
               elevation: 15.0,
               shadowColor: Colors.purple.shade900,
@@ -62,7 +62,7 @@ class Checkout extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(top: 16.0),
             child: Text(
-              book.book_tittle!,
+              book.book_title!,
               style: TextStyle(
                   color: Colors.white,
                   fontSize: 20,

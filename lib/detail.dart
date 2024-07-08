@@ -35,7 +35,7 @@ class Detail extends StatelessWidget {
         Padding(
           padding: EdgeInsets.all(16.0),
           child: Hero(
-            tag: book.book_tittle!,
+            tag: book.book_title!,
             child: Material(
               elevation: 15.0,
               shadowColor: Colors.purple.shade900,
@@ -55,7 +55,7 @@ class Detail extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(top: 16.0),
           child: Text(
-            book.book_tittle!,
+            book.book_title!,
             style: TextStyle(
                 color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
           ),
@@ -140,8 +140,7 @@ class Detail extends StatelessWidget {
             Provider.of<CartProvider>(context, listen: false).addToCart(book);
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                  content:
-                      Text('${book.book_tittle} ditambahkan ke keranjang')),
+                  content: Text('${book.book_title} ditambahkan ke keranjang')),
             );
           },
           minWidth: 160.0,

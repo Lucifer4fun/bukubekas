@@ -19,9 +19,7 @@ class _SearchPageState extends State<SearchPage> {
     setState(() {
       display_list = main_book_list
           .where((element) =>
-              element.book_tittle!
-                  .toLowerCase()
-                  .contains(value.toLowerCase()) ||
+              element.book_title!.toLowerCase().contains(value.toLowerCase()) ||
               element.category!.toLowerCase().contains(value.toLowerCase()) ||
               element.writer!.toLowerCase().contains(value.toLowerCase()))
           .toList();
@@ -88,7 +86,7 @@ class _SearchPageState extends State<SearchPage> {
                       itemBuilder: (context, index) => ListTile(
                         contentPadding: EdgeInsets.all(8.0),
                         title: Text(
-                          display_list[index].book_tittle!,
+                          display_list[index].book_title!,
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
