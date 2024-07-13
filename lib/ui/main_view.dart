@@ -24,10 +24,11 @@ class _MainViewState extends State<MainView> {
           if (index == 0) {
             return LoginScreen(
               controller: controller,
+              showRegisterPage: () {},
             );
           } else if (index == 1) {
             return SingUpScreen(
-              controller: controller,
+              showLoginPage: () {},
             );
           } else {
             return VerifyScreen(

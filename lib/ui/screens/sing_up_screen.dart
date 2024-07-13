@@ -1,17 +1,68 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 class SingUpScreen extends StatefulWidget {
-  SingUpScreen({Key? key, required this.controller}) : super(key: key);
-  final PageController controller;
+  final VoidCallback showLoginPage;
+  const SingUpScreen({Key? key, required this.showLoginPage}) : super(key: key);
 
   @override
   State<SingUpScreen> createState() => _SingUpScreenState();
 }
 
 class _SingUpScreenState extends State<SingUpScreen> {
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passController = TextEditingController();
-  final TextEditingController _repassController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passController = TextEditingController();
+  final _confirmpasswordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passController.dispose();
+    _confirmpasswordController.dispose();
+    super.dispose();
+  }
+
+  Future signUp() async {
+    if (passwordConfirmed()) {
+      if (_passController.text.trim().length < 8) {
+        showError("Password must be at least 8 characters");
+      } else {
+        try {
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+            email: _emailController.text.trim(),
+            password: _passController.text.trim(),
+          );
+          showSuccess("Signup successful!");
+        } catch (e) {
+          showError(e.toString());
+        }
+      }
+    } else {
+      showError("Passwords do not match");
+    }
+  }
+
+  bool passwordConfirmed() {
+    return _passController.text.trim() ==
+        _confirmpasswordController.text.trim();
+  }
+
+  void showError(String message) {
+    final snackBar = SnackBar(
+      content: Text(message),
+      backgroundColor: Color.fromARGB(255, 255, 123, 123),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  void showSuccess(String message) {
+    final snackBar = SnackBar(
+      content: Text(message),
+      backgroundColor: Colors.green,
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -145,9 +196,9 @@ class _SingUpScreenState extends State<SingUpScreen> {
                         child: SizedBox(
                           height: 56,
                           child: TextField(
-                            controller: _repassController,
                             textAlign: TextAlign.center,
                             obscureText: true,
+                            controller: _confirmpasswordController,
                             style: const TextStyle(
                               color: Color(0xFF393939),
                               fontSize: 13,
@@ -201,13 +252,7 @@ class _SingUpScreenState extends State<SingUpScreen> {
                       height: 56,
                       child: ElevatedButton(
                         onPressed: () {
-                          if (_passController.text == _repassController.text) {
-                            widget.controller.animateToPage(2,
-                                duration: const Duration(milliseconds: 500),
-                                curve: Curves.ease);
-                          } else {
-                            // Passwords do not match, show an error message or handle it as needed
-                          }
+                          signUp();
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF9F7BFF),
@@ -243,18 +288,16 @@ class _SingUpScreenState extends State<SingUpScreen> {
                         width: 2.5,
                       ),
                       InkWell(
-                        onTap: () {
-                          widget.controller.animateToPage(0,
-                              duration: const Duration(milliseconds: 500),
-                              curve: Curves.ease);
-                        },
-                        child: const Text(
-                          'Log In',
-                          style: TextStyle(
-                            color: Color(0xFF755DC1),
-                            fontSize: 13,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w500,
+                        child: GestureDetector(
+                          onTap: widget.showLoginPage,
+                          child: const Text(
+                            'Log In',
+                            style: TextStyle(
+                              color: Color(0xFF755DC1),
+                              fontSize: 13,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                         ),
                       ),

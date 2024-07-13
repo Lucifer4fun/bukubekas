@@ -1,9 +1,15 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:uts/ui/screens/sing_up_screen.dart';
 import 'package:uts/upload_buku.dart';
 import 'package:uts/home.dart';
+import 'package:uts/ui/screens/home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key, required this.controller}) : super(key: key);
+  final VoidCallback showRegisterPage;
+  const LoginScreen(
+      {Key? key, required this.controller, required this.showRegisterPage})
+      : super(key: key);
   final PageController controller;
 
   @override
@@ -11,11 +17,59 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passController = TextEditingController();
+
+  Future signIn() async {
+    if (_passController.text.trim().length < 8) {
+      showError("Password must be at least 8 characters");
+      return;
+    }
+
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: _emailController.text.trim(),
+        password: _passController.text.trim(),
+      );
+      showSuccess("Login successful!");
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        showError("No user found for that email.");
+      } else if (e.code == 'wrong-password') {
+        showError("Wrong password provided.");
+      } else {
+        showError(e.message!);
+      }
+    }
+  }
+
+  void showError(String message) {
+    final snackBar = SnackBar(
+      content: Text(message),
+      backgroundColor: Color.fromARGB(255, 255, 0, 0),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  void showSuccess(String message) {
+    final snackBar = SnackBar(
+      content: Text(message),
+      backgroundColor: Colors.green,
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+    PageController controller = PageController();
+
     return Scaffold(
       backgroundColor: Color(0xFF755DC1),
       body: SingleChildScrollView(
@@ -88,6 +142,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: 30,
                   ),
                   TextField(
+                    obscureText: true,
                     controller: _passController,
                     textAlign: TextAlign.center,
                     style: const TextStyle(
@@ -130,10 +185,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       height: 56,
                       child: ElevatedButton(
                         onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => Home()),
-                          );
+                          signIn();
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.white,
@@ -168,11 +220,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         width: 2.5,
                       ),
                       InkWell(
-                        onTap: () {
-                          widget.controller.animateToPage(1,
-                              duration: const Duration(milliseconds: 500),
-                              curve: Curves.ease);
-                        },
+                        onTap: widget.showRegisterPage,
                         child: const Text(
                           'Sign Up',
                           style: TextStyle(

@@ -8,6 +8,7 @@ import 'package:uts/detail.dart';
 import 'package:uts/admin/auth_service.dart';
 import 'package:uts/firebase_options.dart';
 import 'package:uts/home.dart';
+import 'package:uts/splashscreen/splashscreen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,7 +29,9 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: Home(),
+        home: SplashScreen(
+          title: '',
+        ),
         routes: {
           '/cart': (context) => CartPage(),
         },
