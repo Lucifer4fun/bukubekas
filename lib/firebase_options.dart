@@ -63,7 +63,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '327446972565',
     projectId: 'jualbuku-37de7',
     storageBucket: 'jualbuku-37de7.appspot.com',
-    iosClientId: '327446972565-apkpma2q6cl35i123q3of56gn960tk4o.apps.googleusercontent.com',
+    iosClientId:
+        '327446972565-apkpma2q6cl35i123q3of56gn960tk4o.apps.googleusercontent.com',
     iosBundleId: 'com.example.uts',
   );
 
@@ -73,7 +74,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '327446972565',
     projectId: 'jualbuku-37de7',
     storageBucket: 'jualbuku-37de7.appspot.com',
-    iosClientId: '327446972565-apkpma2q6cl35i123q3of56gn960tk4o.apps.googleusercontent.com',
+    iosClientId:
+        '327446972565-apkpma2q6cl35i123q3of56gn960tk4o.apps.googleusercontent.com',
     iosBundleId: 'com.example.uts',
   );
 
