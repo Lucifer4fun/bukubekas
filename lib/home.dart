@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uts/book_model.dart';
@@ -5,6 +6,7 @@ import 'package:uts/cart_item/cart_provider.dart';
 import 'package:uts/detail.dart';
 import 'package:uts/ui/main_view.dart';
 import 'package:uts/ui/screens/login_screen.dart';
+import 'package:uts/ui/screens/screen_page.dart';
 import "package:uts/ui/screens/sing_up_screen.dart";
 import 'checkout.dart';
 import 'package:uts/searching.dart';
@@ -146,10 +148,12 @@ class _HomeState extends State<Home> {
             ),
             ListTile(
               title: Text('Kembali ke Login'),
-              onTap: () {
+              onTap: () async {
+                await FirebaseAuth.instance.signOut();
+
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => Home()),
+                  MaterialPageRoute(builder: (context) => MainPage()),
                 );
               },
             ),
