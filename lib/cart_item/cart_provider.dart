@@ -10,9 +10,9 @@ class CartProvider with ChangeNotifier {
 
   List<CartItem> get cart => _cart;
 
-  get totalPrice => null;
+  get totalPrice => _cart.fold(0, (total, item) => total + item.quantity * item.book.price);
 
-  get items => null;
+  get items => _cart.map((item) => item.book).toList();
 
   CartProvider() {
     // Load cart from Firestore when the provider is initialized
@@ -26,8 +26,7 @@ class CartProvider with ChangeNotifier {
   }
 
   Future<void> addToCart(BookModel book) async {
-    print('add fb');
-    var existingItem = _cart.firstWhereOrNull((item) => item.book == book);
+    var existingItem = _cart.firstWhereOrNull((item) => item.book.book_title == book.book_title);
 
     if (existingItem != null) {
       existingItem.quantity++;
@@ -76,5 +75,14 @@ class CartProvider with ChangeNotifier {
     if (doc.docs.isNotEmpty) {
       await _firestore.collection('cart').doc(doc.docs.first.id).delete();
     }
+  }
+
+  Future<void> clearCart() async {
+    var snapshot = await _firestore.collection('cart').get();
+    for (var doc in snapshot.docs) {
+      await _firestore.collection('cart').doc(doc.id).delete();
+    }
+    _cart.clear();
+    notifyListeners();
   }
 }

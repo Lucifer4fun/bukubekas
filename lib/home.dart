@@ -94,7 +94,7 @@ class _HomeState extends State<Home> {
                   Image(
                     image: NetworkImage(book.book_poster_url ?? ''),
                     fit: BoxFit.cover,
-                    height: MediaQuery.of(context).size.height / 1.5,
+                    height: MediaQuery.of(context).size.height / 7.5,
                   ),
                   IconButton(
                     icon: Icon(Icons.add_shopping_cart),
