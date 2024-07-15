@@ -29,9 +29,9 @@ class _HomePageState extends State<HomePage>
   PlatformFile? _platformFile;
 
   TextEditingController nameController = TextEditingController();
-  TextEditingController descriptionController = TextEditingController();
-  TextEditingController authorNameController = TextEditingController();
+  TextEditingController authorController = TextEditingController();
   TextEditingController priceController = TextEditingController();
+  TextEditingController ratingController = TextEditingController();
 
   selectFile() async {
     final result = await FilePicker.platform.pickFiles(
@@ -48,7 +48,8 @@ class _HomePageState extends State<HomePage>
     }
   }
 
-  Future<void> uploadFile() async {
+  Future<void> uploadFile(
+      {String? name, String? author, int? price, int? rating}) async {
     if (_file == null) return;
 
     try {
@@ -69,10 +70,10 @@ class _HomePageState extends State<HomePage>
       final downloadURL = await snapshot.ref.getDownloadURL();
 
       await FirebaseFirestore.instance.collection('books').add({
-        'name': nameController.text,
-        'description': descriptionController.text,
-        'authorName': authorNameController.text,
-        'price': priceController.text,
+        'name': name,
+        'author': author,
+        'price': price,
+        'rating': rating,
         'fileURL': downloadURL,
         'uploadedAt': Timestamp.now(),
       });
@@ -276,26 +277,6 @@ class _HomePageState extends State<HomePage>
                   ),
                   SizedBox(height: 20),
                   Text(
-                    'Deskripsi',
-                    style: TextStyle(
-                      color: Colors.grey.shade800,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  TextFormField(
-                    controller: descriptionController,
-                    maxLines: 3,
-                    decoration: InputDecoration(
-                      hintText: 'Masukkan Deskripsi...',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  Text(
                     'Nama Penulis',
                     style: TextStyle(
                       color: Colors.grey.shade800,
@@ -305,9 +286,10 @@ class _HomePageState extends State<HomePage>
                   ),
                   SizedBox(height: 10),
                   TextFormField(
-                    controller: authorNameController,
+                    controller: authorController,
+                    maxLines: 3,
                     decoration: InputDecoration(
-                      hintText: 'Nama Penulis...',
+                      hintText: 'Masukkan Nama Penulis...',
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10.0),
                       ),
@@ -325,9 +307,28 @@ class _HomePageState extends State<HomePage>
                   SizedBox(height: 10),
                   TextFormField(
                     controller: priceController,
+                    decoration: InputDecoration(
+                      hintText: 'Harga...',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Text(
+                    'Rating',
+                    style: TextStyle(
+                      color: Colors.grey.shade800,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  TextFormField(
+                    controller: ratingController,
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
-                      hintText: 'Masukkan Harga...',
+                      hintText: 'Masukkan Rating...',
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10.0),
                       ),
@@ -335,7 +336,13 @@ class _HomePageState extends State<HomePage>
                   ),
                   SizedBox(height: 20),
                   ElevatedButton(
-                    onPressed: uploadFile,
+                    onPressed: () {
+                      uploadFile(
+                          author: authorController.text,
+                          name: nameController.text,
+                          price: int.parse(priceController.text),
+                          rating: int.parse(ratingController.text));
+                    },
                     child: Text('Submit'),
                   ),
                 ],
