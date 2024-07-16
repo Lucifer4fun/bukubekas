@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:uts/cart_item/cart_item.dart';
 import 'package:uts/cart_item/cart_provider.dart';
 import 'package:uts/cart_item/cart_provider.dart';
+import 'package:uts/success/buy_success.dart';
 import 'package:uts/transaksi.dart';
 
 class CartPage extends StatelessWidget {
@@ -116,8 +117,12 @@ class CartPage extends StatelessWidget {
             ),
             TextButton(
               child: Text('Beli'),
-              onPressed: () {
-                _purchaseItems(context, cartProvider);
+              onPressed: () async {
+                await _purchaseItems(context, cartProvider);
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (_) => SuccessPage1(
+                          title: '',
+                        )));
               },
             ),
           ],
@@ -150,21 +155,7 @@ class CartPage extends StatelessWidget {
 
       // Bersihkan keranjang
       await cartProvider.clearCart();
-
-      // Tampilkan pesan berhasil
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Transaksi Berhasil'),
-        ),
-      );
-    } catch (e) {
-      // Tampilkan pesan kesalahan jika terjadi error
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Terjadi kesalahan saat memproses transaksi'),
-        ),
-      );
-    }
+    } catch (e) {}
 
     Navigator.of(context).pop();
   }

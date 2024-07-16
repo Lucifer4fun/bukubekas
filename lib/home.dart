@@ -147,7 +147,7 @@ class _HomeState extends State<Home> {
               ),
             ),
             ListTile(
-              title: Text('Kembali ke Login'),
+              title: Text('Logout'),
               onTap: () async {
                 await FirebaseAuth.instance.signOut();
 

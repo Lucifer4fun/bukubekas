@@ -10,7 +10,8 @@ class CartProvider with ChangeNotifier {
 
   List<CartItem> get cart => _cart;
 
-  get totalPrice => _cart.fold(0, (total, item) => total + item.quantity * item.book.price);
+  get totalPrice =>
+      _cart.fold(0, (total, item) => total + item.quantity * item.book.price);
 
   get items => _cart.map((item) => item.book).toList();
 
@@ -26,7 +27,8 @@ class CartProvider with ChangeNotifier {
   }
 
   Future<void> addToCart(BookModel book) async {
-    var existingItem = _cart.firstWhereOrNull((item) => item.book.book_title == book.book_title);
+    var existingItem = _cart
+        .firstWhereOrNull((item) => item.book.book_title == book.book_title);
 
     if (existingItem != null) {
       existingItem.quantity++;
